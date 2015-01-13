@@ -1,10 +1,10 @@
 {
-  "name": "core-localstorage",
-  "private": true,
+  "name": "sb-localforage",
   "dependencies": {
-    "polymer": "Polymer/polymer#master"
+    "localforage": "^1.2.1",
+    "polymer": "^0.5.2"
   },
   "devDependencies": {
-    "web-component-tester": "Polymer/web-component-tester#^1.1.0"
+    "web-component-tester": "^2.0.5"
   }
 }

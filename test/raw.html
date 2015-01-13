@@ -10,42 +10,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>core-localstorage-raw</title>
+  <title>sb-localforage-raw</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-  
-  <link rel="import" href="../core-localstorage.html">
+
+  <link rel="import" href="../sb-localforage.html">
 
 </head>
 <body>
 
-  <core-localstorage id="localstorage" useRaw name="core-localstorage-test"></core-localstorage>
+  <sb-localforage id="localforage" useRaw name="sb-localforage-test"></sb-localforage>
 
   <script>
+    testImmediate('initialize', function(done) {
+        window.localforage.setItem('sb-localforage-test', 'hello world', function(err) {
+          done(err);
+        });
+    });
 
-    window.localStorage.setItem('core-localstorage-test', 'hello world');
-    var storage = document.querySelector('#localstorage');
-    
+    var storage = document.querySelector('#localforage');
+
     suite('basic', function() {
 
       test('load', function() {
         assert.equal(storage.value, 'hello world');
       });
-      
+
       test('save', function(done) {
         var m = 'goodbye';
         storage.value = m;
-        asyncPlatformFlush(function() {
-          var v = window.localStorage.getItem(storage.name);
-          assert.equal(v, m);
-          done();
+        flush(function() {
+          window.localforage.getItem(storage.name, function(err, v){
+            assert.isNull(err);
+            assert.equal(v, m);
+            done();
+          });
         });
       });
 
     });
-
   </script>
 
 </body>

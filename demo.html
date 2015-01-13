@@ -11,11 +11,11 @@
 <html>
 <head>
 
-  <title>polymer-localstorage</title>
+  <title>sb-localforage</title>
 
   <script src="../webcomponentsjs/webcomponents.js"></script>
 
-  <link rel="import" href="core-localstorage.html">
+  <link rel="import" href="sb-localforage.html">
 
 </head>
 <body>
@@ -24,9 +24,9 @@
 
   <polymer-element name="x-test1" noscript>
     <template>
-      string entered below will be stored in localStorage and automatically retrived from localStorage when the page is reloaded<br>
+      string entered below will be stored via localForage and automatically retrived via localForage when the page is reloaded<br>
       <input value="{{value}}">
-      <core-localstorage name="polymer-localstorage-x-test1" value="{{value}}"></core-localstorage>
+      <sb-localforage name="sb-localforage-x-test1" value="{{value}}"></sb-localforage>
     </template>
   </polymer-element>
 
@@ -37,7 +37,7 @@
   <polymer-element name="x-test2">
     <template>
       <input type="checkbox" checked="{{mode}}">
-      <core-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></core-localstorage>
+      <sb-localforage name="sb-localforage-x-test2" value="{{mode}}"></sb-localforage>
     </template>
     <script>
       Polymer('x-test2', {

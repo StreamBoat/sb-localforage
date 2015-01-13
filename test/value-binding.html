@@ -10,13 +10,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>core-localstorage-value-binding</title>
+  <title>sb-localforage-value-binding</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../../webcomponentsjs/webcomponents.js"></script>
   <script src="../../web-component-tester/browser.js"></script>
-  
-  <link rel="import" href="../core-localstorage.html">
+
+  <link rel="import" href="../sb-localforage.html">
 
 </head>
 <body>
@@ -30,48 +30,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <polymer-element name="x-test" attributes="value" noscript>
     <template>
       <x-foo value="{{value}}"></x-foo>
-      <core-localstorage id="localstorage" name="core-localstorage-test" value="{{value}}"></core-localstorage>
+      <sb-localforage id="localforage" name="sb-localforage-test" value="{{value}}"></sb-localforage>
     </template>
   </polymer-element>
-  
+
   <x-test></x-test>
 
   <script>
+    testImmediate('initialize', function(done) {
+      window.localforage.setItem('sb-localforage-test', '{"foo":"bar"}', function(err) {
+        done(err);
+      });
+    });
 
-    window.localStorage.setItem('core-localstorage-test', '{"foo":"bar"}');
     var xtest = document.querySelector('x-test');
-    
+
     suite('basic', function() {
 
       test('initial value', function() {
         assert.isNotNull(xtest.value);
         assert.equal(xtest.value.foo, 'bar');
       });
-      
+
       test('set value', function(done) {
         var newValue = {'foo': 'zot'};
         xtest.value = newValue;
-        asyncPlatformFlush(function() {
-          var v = window.localStorage.getItem(xtest.$.localstorage.name);
-          v = JSON.parse(v);
-          assert.equal(v.foo, newValue.foo);
-          done();
+        flush(function() {
+          window.localforage.getItem(xtest.$.localforage.name, function(err, v){
+            v = JSON.parse(v);
+            assert.equal(v.foo, newValue.foo);
+            done(err);
+          });
         });
       });
-      
+
       test('save', function(done) {
         xtest.value.foo = 'quux';
-        xtest.$.localstorage.save();
-        asyncPlatformFlush(function() {
-          var v = window.localStorage.getItem(xtest.$.localstorage.name);
-          v = JSON.parse(v);
-          assert.equal(v.foo, 'quux');
-          done();
+        xtest.$.localforage.save();
+        flush(function() {
+          window.localforage.getItem(xtest.$.localforage.name, function(err, v) {
+            v = JSON.parse(v);
+            assert.equal(v.foo, 'quux');
+            done(err);
+          });
         });
       });
 
     });
-    
   </script>
 
 </body>
