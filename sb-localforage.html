@@ -112,7 +112,7 @@ triggered only when value is a different instance.
           }
         }
         this.loaded = true;
-        this.asyncFire('sb-localforage-load', {name: this.name});
+        this.asyncFire('sb-localforage-load', {name: this.name}, this);
       }.bind(this));
     },
 
