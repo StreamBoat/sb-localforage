@@ -27,7 +27,7 @@ triggered only when value is a different instance.
 <link rel="import" href="../polymer/polymer.html">
 <script src="../localforage/dist/localforage.min.js"></script>
 
-<polymer-element name="sb-localforage" attributes="name value useRaw autoSaveDisabled" hidden>
+<polymer-element name="sb-localforage" attributes="name value useRaw autoSaveDisabled autoLoadDisabled" hidden>
 <script>
 
   Polymer('sb-localforage', {
@@ -73,6 +73,15 @@ triggered only when value is a different instance.
      */
     autoSaveDisabled: false,
 
+    /**
+     * If true, data will not be loaded automatically
+     *
+     * @attribute autoLoadDisabled
+     * @type boolean
+     * @default false
+     */
+    autoLoadDisabled: false,
+
     valueChanged: function() {
       if (this.loaded && !this.autoSaveDisabled) {
         this.save();
@@ -80,9 +89,24 @@ triggered only when value is a different instance.
     },
 
     nameChanged: function() {
-      this.load();
+      this.autoLoad();
     },
 
+    autoLoadDisabledChanged: function() {
+      this.autoLoad();
+    },
+
+    autoLoad: function() {
+      if (!this.autoLoadDisabled) {
+        this.load();
+      }
+    },
+
+    /**
+     * Loads the value from localForage.
+     *
+     * @method load
+     */
     load: function() {
       localforage.getItem(this.name, function(err, v) {
         if (err) {
