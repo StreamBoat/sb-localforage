@@ -1,5 +1,10 @@
 {
   "name": "sb-localforage",
+  "version": "0.0.1",
+  "main": "sb-localforage.html",
+  "ignore": [
+    "test/**/*"
+  ],
   "dependencies": {
     "localforage": "^1.2.1",
     "polymer": "^0.5.2"
